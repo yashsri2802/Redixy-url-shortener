@@ -13,6 +13,8 @@ A URL Shortener web application built using **Node.js, Express, and EJS**, follo
 ## 🚀 Features
 - Shorten long URLs into unique short links  
 - Redirect to original URLs instantly  
+- Option to add **custom short URLs**  
+- If no custom alias is provided, a **random hex string** is auto-generated using Node’s **crypto** module  
 - Organized structure using **MVC pattern**  
 - Server-side rendering with **EJS templates**  
 - Environment-based configuration using `.env`  
@@ -25,6 +27,7 @@ A URL Shortener web application built using **Node.js, Express, and EJS**, follo
 - **Frontend:** EJS (Embedded JavaScript Templates)  
 - **Architecture:** MVC (Model–View–Controller)  
 - **Environment Management:** dotenv  
+- **Utilities:** Node `crypto` module  
 - **Version Control:** Git & GitHub  
 
 ---
