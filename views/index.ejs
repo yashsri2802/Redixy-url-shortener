@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>URL Shortener</h1>
+      <form action="/" method="post">
+        <div>
+          <label for="url">Enter URL:</label>
+          <input type="url" name="url" id="url" required />
+        </div>
+        <div>
+          <label for="shortCode">Enter Custom URL (Optional) :</label>
+          <input type="text" name="shortCode" id="shortCode" />
+        </div>
+        <button type="submit">Shorten URL</button>
+      </form>
+
+      <h2>Shortened URLs</h2>
+      <ul>
+        <% Object.entries(links).map(([shortCode,url]) => { %>
+        <li>
+          <a href="/<%= shortCode%>" target="_blank">
+            <%= hosts %>/<%= shortCode %>
+          </a>
+          - <%= url %>
+        </li>
+        <% }) %>
+      </ul>
+    </div>
+  </body>
+</html>
