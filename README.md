@@ -55,6 +55,12 @@ A URL Shortener web application built using **Node.js, Express, and EJS**, follo
 ## 📷 Screenshot
 ![App Screenshot](./Screenshot.png)
 
+## 🌍 Live Demo
+
+Check out the live version of the project here:  
+
+👉 [URL Shortener on Render](https://url-shortener-32e9.onrender.com)
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
