@@ -5,7 +5,7 @@
 [![EJS](https://img.shields.io/badge/EJS-Templating-yellow)](https://ejs.co/)  
 [![MVC](https://img.shields.io/badge/Pattern-MVC-blue)](#)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)  
-[![GitHub stars](https://img.shields.io/github/stars/<your-username>/<your-repo>?style=social)](https://github.com/<your-username>/<your-repo>/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/yashsri2802/URL-Shortener?style=social)](https://github.com/yashsri2802/URL-Shortener/stargazers)
 
 A URL Shortener web application built using **Node.js, Express, and EJS**, following the **MVC design pattern**. It allows users to shorten long URLs into compact links, manage them efficiently, and redirect seamlessly.
 
