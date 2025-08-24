@@ -1,10 +1,11 @@
 import express from "express";
 import { shortenedRoutes } from "./routes/shortener.routes.js";
 import { connectDB } from "./config/db-client.js";
+import { env } from "./config/env.js";
 
 const app = express();
 
-const PORT = process.env.PORT;
+const PORT = env.PORT;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
