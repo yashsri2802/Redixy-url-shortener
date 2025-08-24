@@ -3,8 +3,6 @@ import crypto from "crypto";
 
 export const getShortenerPage = async (req, res) => {
   try {
-    // const file = await readFile(path.join("views/index.html"));
-
     const links = await urls.find();
 
     return res.render("index", { links, hosts: req.host });
@@ -17,9 +15,9 @@ export const postURLShortener = async (req, res) => {
   try {
     const { url, shortCode } = req.body;
     const finalShortCode = shortCode || crypto.randomBytes(4).toString("hex");
-    const existing = await urls.findOne({ shortCode: finalShortCode });
+    const links = await urls.find();
 
-    if (existing) {
+    if (links[finalShortCode]) {
       return res
         .status(400)
         .send("Short code already exists. Please choose another one.");
