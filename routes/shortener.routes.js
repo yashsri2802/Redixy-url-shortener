@@ -7,28 +7,6 @@ import {
 
 const router = Router();
 
-//ejs Template engine
-// router.get("/report", (req, res) => {
-//   const student = [
-//     {
-//       name: "yash",
-//       grade: "A",
-//       favSubject: "Chemistry",
-//     },
-//     {
-//       name: "lorem",
-//       grade: "B+",
-//       favSubject: "Maths",
-//     },
-//     {
-//       name: "ipsum",
-//       grade: "A+",
-//       favSubject: "Physics",
-//     },
-//   ];
-//   res.render("report", { student });
-// });
-
 router.get("/", getShortenerPage);
 
 router.post("/", postURLShortener);
