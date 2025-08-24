@@ -1,5 +1,6 @@
 import express from "express";
 import { shortenedRoutes } from "./routes/shortener.routes.js";
+import { connectDB } from "./config/db-client.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.set("view engine", "ejs");
 
 app.use(shortenedRoutes);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await connectDB();
   console.log(`Server is running on http://localhost:${PORT}`);
 });

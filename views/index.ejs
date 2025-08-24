@@ -15,7 +15,7 @@
           <input type="url" name="url" id="url" required />
         </div>
         <div>
-          <label for="shortCode">Enter Custom URL (Optional) :</label>
+          <label for="shortCode">Enter Custom URL (Optional):</label>
           <input type="text" name="shortCode" id="shortCode" />
         </div>
         <button type="submit">Shorten URL</button>
@@ -23,7 +23,7 @@
 
       <h2>Shortened URLs</h2>
       <ul>
-        <% Object.entries(links).map(([shortCode,url]) => { %>
+        <% links.map(({ shortCode, url }) => { %>
         <li>
           <a href="/<%= shortCode%>" target="_blank">
             <%= hosts %>/<%= shortCode %>
