@@ -5,8 +5,9 @@
 [![EJS](https://img.shields.io/badge/EJS-Templating-yellow)](https://ejs.co/)  
 [![MVC](https://img.shields.io/badge/Pattern-MVC-blue)](#)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)  
+[![Mongoose](https://img.shields.io/badge/ODM-Mongoose-orange)](https://mongoosejs.com/)
 
-A URL Shortener web application built using **Node.js, Express, and EJS**, following the **MVC design pattern**. It allows users to shorten long URLs into compact links, manage them efficiently, and redirect seamlessly.
+A URL Shortener web application built using Node.js, Express, EJS, MongoDB, and Mongoose, following the MVC design pattern. It allows users to shorten long URLs into compact links, store them in a database, manage them efficiently, and redirect seamlessly.
 
 ---
 
@@ -14,7 +15,8 @@ A URL Shortener web application built using **Node.js, Express, and EJS**, follo
 - Shorten long URLs into unique short links  
 - Redirect to original URLs instantly  
 - Option to add **custom short URLs**  
-- If no custom alias is provided, a **random hex string** is auto-generated using Node’s **crypto** module  
+- If no custom alias is provided, a **random hex string** is auto-generated using Node’s **crypto** module
+- Persistent storage with MongoDB (managed via Mongoose ODM)
 - Organized structure using **MVC pattern**  
 - Server-side rendering with **EJS templates**  
 - Environment-based configuration using `.env`  
@@ -24,7 +26,8 @@ A URL Shortener web application built using **Node.js, Express, and EJS**, follo
 
 ## 🛠️ Tech Stack
 - **Backend:** Node.js, Express.js  
-- **Frontend:** EJS (Embedded JavaScript Templates)  
+- **Frontend:** EJS (Embedded JavaScript Templates)
+- **Database:** MongoDB (with Mongoose ODM)  
 - **Architecture:** MVC (Model–View–Controller)  
 - **Environment Management:** dotenv  
 - **Utilities:** Node `crypto` module  
@@ -47,6 +50,7 @@ A URL Shortener web application built using **Node.js, Express, and EJS**, follo
    Add your environment variables (example):
    ```bash
    PORT=3000
+   MONGO_URI=mongodb://127.0.0.1:27017/<database_name>
 
 4. **Run the Project**
    ```bash
