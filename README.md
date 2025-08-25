@@ -63,7 +63,7 @@ A URL Shortener web application built using Node.js, Express, EJS, MongoDB, and 
 
 Check out the live version of the project here:  
 
-👉 [URL Shortener on Render](https://urlshortener-hns1.onrender.com)
+👉 [URL Shortener on Render](https://url-shortener-32e9.onrender.com/)
 
 ## 🤝 Contributing
 
