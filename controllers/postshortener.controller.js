@@ -11,6 +11,7 @@ export const getShortenerPage = async (req, res) => {
 
     return res.render("index", { links, hosts: req.host });
   } catch (error) {
+    console.error("Error in getShortenerPage:", error);
     return res.status(500).send("Internal Server Error");
   }
 };
@@ -30,6 +31,7 @@ export const postURLShortener = async (req, res) => {
     await saveLinks({ url, shortCode: finalShortCode });
     return res.redirect("/");
   } catch (error) {
+    console.error("Error in postURLShortener:", error);
     return res.status(500).send("Internal Server Error");
   }
 };
@@ -42,6 +44,7 @@ export const redirectToShortLink = async (req, res) => {
 
     return res.redirect(link.url);
   } catch (error) {
+    console.error("Error in redirectToShortLink:", error);
     return res.status(500).send("Internal Server Error");
   }
 };
