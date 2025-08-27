@@ -73,8 +73,9 @@ This will create a prisma/schema.prisma file and a .env file.
 ## 🔍 Viewing Data
 
 To open Prisma Studio and explore data in the browser:
-  
-      ```npx prisma studio
+  ```bash
+  npx prisma studio
+   ```
 Then visit 👉 http://localhost:5555 in your browser.
 
 (Run this in a separate PowerShell/terminal so your app can keep running.)
