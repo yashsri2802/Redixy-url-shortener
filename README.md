@@ -5,7 +5,7 @@
 [![EJS](https://img.shields.io/badge/EJS-Templating-yellow)](https://ejs.co/)  
 [![MVC](https://img.shields.io/badge/Pattern-MVC-blue)](#)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)  
-[![Prisma](https://img.shields.io/badge/Prisma-3982CE?logo=Prisma&logoColor=white&style=for-the-badge)](https://www.prisma.io/)
+[![Prisma](https://img.shields.io/badge/ORM-Prisma-2D3748?logo=prisma)](https://www.prisma.io/)
 
 A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Prisma ORM, following the MVC design pattern. It allows users to shorten long URLs into compact links, store them in a database, manage them efficiently, and redirect seamlessly.
 
