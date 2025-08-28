@@ -4,9 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>URL Shortener</title>
   </head>
   <body>
+    <%- include('partials/header') %>
+
     <div class="container">
       <h1>URL Shortener</h1>
       <form action="/" method="post">
@@ -22,16 +24,6 @@
       </form>
 
       <h2>Shortened URLs</h2>
-      <ul>
-        <% links.map(({ short_Code, url }) => { %>
-        <li>
-          <a href="/<%= short_Code %>" target="_blank">
-            <%= hosts %>/<%= short_Code %>
-          </a>
-          - <%= url %>
-        </li>
-        <% }) %>
-      </ul>
     </div>
   </body>
 </html>
