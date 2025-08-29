@@ -34,3 +34,11 @@ export const postRegister = async (req, res) => {
 export const getHomePage = async (req, res) => {
   return res.render("index", { user: req.user || null, hosts: req.host });
 };
+
+export const logoutUser = async (req, res) => {
+  await clearUserSession(req.user.sessionId);
+
+  res.clearCookie("access_token");
+  res.clearCookie("refresh_token");
+  res.redirect("/login");
+};
