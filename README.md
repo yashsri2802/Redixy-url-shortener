@@ -51,7 +51,7 @@ A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Pr
    npm install prisma --save-dev
    npm install @prisma/client
 
-4. **Initialize Prisma
+4. **Initialize Prisma**
    ```bash
    npx prisma init
 This will create a prisma/schema.prisma file and a .env file.
