@@ -10,13 +10,16 @@ import z from "zod";
 
 export const getShortenerPage = async (req, res) => {
   try {
-    if (!req.user) return res.redirect("/login");
+    let links = [];
+    if (req.user) {
+      links = await getAllShortLinks(req.user.id);
+    }
 
-    const links = await getAllShortLinks(req.user.id);
     return res.render("index", {
       links,
-      host: req.host,
+      host: req.headers.host,
       errors: req.flash("errors"),
+      user: req.user || null,
     });
   } catch (error) {
     console.error("Error in getShortenerPage:", error);
