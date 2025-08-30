@@ -56,7 +56,6 @@
                     name="shortCode"
                     id="shortCode"
                     placeholder="Enter custom short code"
-                    required
                   />
                 </div>
 
@@ -81,7 +80,7 @@
               <h2 class="section-title">Shortened URLs</h2>
               <% if(links && links.length>0) { %>
               <ul class="url-list">
-                <% links.forEach(({shortCode,url,id}) => { %> <% const
+                <% links.map(({shortCode,url,id}) => { %> <% const
                 truncatedUrl=url.length>=30 ? `${url.slice(0,30)}...` : url %>
                 <li class="url-item">
                   <div class="url-info">

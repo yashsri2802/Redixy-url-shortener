@@ -35,7 +35,7 @@ export const postURLShortener = async (req, res) => {
     if (link) {
       req.flash(
         "errors",
-        "Url with this shortcode already exists, please choose another"
+        "URL with this shortcode already exists, please choose another"
       );
       return res.redirect("/");
     }
@@ -90,16 +90,27 @@ export const postShortenerEditPage = async (req, res) => {
 
   try {
     const { url, shortCode } = req.body;
+
+    const currentLink = await findShortLinkById(id);
+
+    if (!currentLink) return res.redirect("/404");
+
+    if (currentLink.shortCode === shortCode) {
+      req.flash("errors", "Shortcode already exists, please choose another");
+      return res.redirect(`/edit/${id}`);
+    }
+
+    const existingLink = await getShortLinkByShortCode(shortCode);
+    if (existingLink) {
+      req.flash("errors", "Shortcode already exists, please choose another");
+      return res.redirect(`/edit/${id}`);
+    }
+
     const newUpdateShortCode = await updateShortCode({ id, url, shortCode });
     if (!newUpdateShortCode) return res.redirect("/404");
 
     res.redirect("/");
   } catch (err) {
-    if (err.code === "ER_DUP_ENTRY") {
-      req.flash("errors", "Shortcode already exists, please choose another");
-      return res.redirect(`/edit/${id}`);
-    }
-
     console.error(err);
     return res.status(500).send("Internal server error");
   }

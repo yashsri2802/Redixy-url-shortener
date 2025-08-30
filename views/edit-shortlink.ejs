@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
-    <!-- ZMDI Material Design Iconic Font CDN -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.min.css"
     />
-    <title>URL Shortener</title>
+    <title>Document</title>
   </head>
 
   <body>
@@ -36,7 +35,7 @@
             <div class="shortener-form">
               <h1 class="form-title">URL Shortener</h1>
               <form
-                action="/edit/<%= id  %>"
+                action="/edit/<%= id %>"
                 method="post"
                 class="url-form"
                 id="url-form"
@@ -50,7 +49,7 @@
                     name="url"
                     id="url"
                     placeholder="Enter URL"
-                    value="<%= url  %>"
+                    value="<%= url %>"
                     required
                   />
                 </div>
@@ -62,12 +61,12 @@
                     type="text"
                     name="shortCode"
                     id="shortCode"
-                    value="<%= shortCode  %>"
+                    value="<%= shortCode %>"
                     required
                   />
                 </div>
 
-                <% if ((errors && errors.length > 0)) { %> <%
+                <% if((errors && errors.length>0)) { %> <%
                 errors.forEach((error) => { %>
                 <p class="flash-error"><%= error %></p>
                 <% }); %> <% } %>
@@ -87,7 +86,5 @@
         </div>
       </section>
     </div>
-
-    <%- include('./partials/footer.ejs') %>
   </body>
 </html>

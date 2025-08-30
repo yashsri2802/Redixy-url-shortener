@@ -22,7 +22,7 @@ export const findShortLinkById = async (id) => {
   const [result] = await db
     .select()
     .from(shortLinksTable)
-    .where(eq(shortLinksTable.id.id));
+    .where(eq(shortLinksTable.id, id));
   return result;
 };
 
