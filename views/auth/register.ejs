@@ -26,8 +26,8 @@
             <div class="signup-form">
               <h2 class="form-title">Sign up</h2>
               <form
-                action="/register"
                 method="POST"
+                action="/register"
                 class="register-form"
                 id="register-form"
               >
@@ -47,8 +47,8 @@
                   <input
                     type="email"
                     name="email"
-                    autocomplete="off"
                     id="email"
+                    autocomplete="off"
                     placeholder="Your Email"
                   />
                 </div>
@@ -58,7 +58,7 @@
                     type="password"
                     name="password"
                     id="pass"
-                    placeholder="Your Password"
+                    placeholder="Password"
                   />
                 </div>
 
@@ -82,15 +82,14 @@
               <figure>
                 <img src="images/signup-image.jpg" alt="sing up image" />
               </figure>
-              <a href="/login" class="signup-image-link"
-                >Already have an account?</a
-              >
+              <a href="/login" class="signup-image-link">I am already member</a>
             </div>
           </div>
         </div>
       </section>
     </div>
 
-    <%- include('../partials/footer') %>
+    <%- include('../partials/footer.ejs') %>
+    <!-- JS -->
   </body>
 </html>
