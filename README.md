@@ -81,7 +81,7 @@ Then visit 👉 http://localhost:5555 in your browser.
 (Run this in a separate PowerShell/terminal so your app can keep running.)
 
 ## 📷 Screenshot
-![App Screenshot](./Screenshot.png)
+
 
 ## 🌍 Live Demo
 
