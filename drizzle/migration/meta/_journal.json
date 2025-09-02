@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1756491005788,
-      "tag": "0000_dusty_mystique",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1756492194407,
-      "tag": "0001_yummy_thaddeus_ross",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1756495551770,
-      "tag": "0002_lethal_mach_iv",
+      "when": 1756749513765,
+      "tag": "0000_lame_thunderbolt_ross",
       "breakpoints": true
     }
   ]

@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import {
+  deleteShortCodeById,
   findShortLinkById,
   getAllShortLinks,
   getShortLinkByShortCode,
@@ -115,6 +116,21 @@ export const postShortenerEditPage = async (req, res) => {
     res.redirect("/");
   } catch (err) {
     console.error(err);
+    return res.status(500).send("Internal server error");
+  }
+};
+
+export const deleteShortCode = async (req, res) => {
+  try {
+    const { data: id, error } = z.coerce
+      .number()
+      .int()
+      .safeParse(req.params.id);
+    if (error) return res.redirect("/404");
+    await deleteShortCodeById(id);
+    return res.redirect("/");
+  } catch (error) {
+    console.error(error);
     return res.status(500).send("Internal server error");
   }
 };

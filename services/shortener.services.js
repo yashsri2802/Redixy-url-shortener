@@ -32,3 +32,7 @@ export const updateShortCode = async ({ id, url, shortCode }) => {
     .set({ url, shortCode })
     .where(eq(shortLinksTable.id, id));
 };
+
+export const deleteShortCodeById = async (id) => {
+  return await db.delete(shortLinksTable).where(eq(shortLinksTable.id, id));
+};

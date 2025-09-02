@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { verifyAuthentication } from "./middlewares/verify-auth-middleware.js";
 import session from "express-session";
 import flash from "connect-flash";
+import requestIp from "request-ip";
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(
   session({ secret: "my-secret", resave: true, saveUninitialized: false })
 );
 app.use(flash());
+
+app.use(requestIp.mw());
 
 app.use(verifyAuthentication);
 app.use((req, res, next) => {
