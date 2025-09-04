@@ -87,7 +87,7 @@ To open Prisma Studio and explore data in the browser:
   ```bash
   npm run db:studio
    ```
-Then visit 👉 http://localhost:5555 in your browser.
+Then visit 👉 https://local.drizzle.studio in your browser.
 
 (Run this in a separate PowerShell/terminal so your app can keep running.)
 
