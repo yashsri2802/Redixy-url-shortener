@@ -39,7 +39,7 @@ A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Pr
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yashsri2802/URL-Shortener.git
+   git clone https://github.com/yashsri2802/Redixy-url-shortener.git
    cd URL_Shortener
 
 2. **Install dependancies**
@@ -59,22 +59,30 @@ This will create a prisma/schema.prisma file and a .env file.
 5. **Create a .env file**
    Add your environment variables (example):
    ```bash
-   DATABASE_URL="mysql://user:password@localhost:3306/url_shortener"
+   DATABASE_URL="mysql://user:password@localhost:3306/db_name"
    PORT=3000
 
-6. **Migrate the Database**
+6. **Generate the Database**
    ```bash
-   npx prisma migrate dev --name init
+   npm run db:generate
 
-8. **Run the Project**
+7. **Migrate the Database**
+   ```bash
+   npm run db:migrate
+
+8. **Run Drizzle Studio on seperate Powershell**
+   ```bash
+   npm run db:studio
+
+10. **Run the Project**
    ```bash
    npm run dev
-
+   ```
 ## 🔍 Viewing Data
 
 To open Prisma Studio and explore data in the browser:
   ```bash
-  npx prisma studio
+  npm run db:studio
    ```
 Then visit 👉 http://localhost:5555 in your browser.
 
