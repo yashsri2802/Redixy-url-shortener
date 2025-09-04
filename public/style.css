@@ -877,7 +877,8 @@ footer .social-links a:hover {
 }
 
 .verify-link:hover {
-  background-color: #4292dc;
+  background: #83b7ff;
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

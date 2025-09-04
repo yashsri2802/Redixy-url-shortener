@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   int,
@@ -31,11 +31,24 @@ export const sessionsTable = mysqlTable("sessions", {
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
 
+export const verifyEmailTokensTable = mysqlTable("is_email_valid", {
+  id: int().autoincrement().primaryKey(),
+  userId: int("user_id")
+    .notNull()
+    .references(() => usersTable.id, { onDelete: "cascade" }),
+  token: varchar({ length: 8 }).notNull(),
+  expiresAt: timestamp("expires_at")
+    .default(sql`(CURRENT_TIMESTAMP + INTERVAL 1 DAY)`)
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const usersTable = mysqlTable("users", {
   id: int().autoincrement().primaryKey(),
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
   password: varchar({ length: 255 }).notNull(),
+  isEmailValid: boolean("is_email_valid").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

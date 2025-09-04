@@ -3,12 +3,15 @@ import {
   REFRESH_TOKEN_EXPIRY,
 } from "../config/constants.js";
 import {
+  authenticateUser,
   clearUserSession,
   comparePassword,
   createAccessToken,
   createRefreshToken,
   createSession,
   createUser,
+  findUserById,
+  getAllShortLinks,
   getUserByEmail,
   hashPassword,
 } from "../services/auth.services.js";
@@ -20,10 +23,19 @@ export const getRegisterPage = (req, res) => {
 
 export const postRegister = async (req, res) => {
   if (req.user) return res.redirect("/");
+
+  // const { data, error } = registerUserSchema.safeParse(req.body);
+
+  // if (error) {
+  //   const errorMessage = error.errors[0].message;
+  //   req.flash("errors", errorMessage);
+  //   return res.redirect("/");
+  // }
+
   const { name, email, password } = req.body;
 
   const userExists = await getUserByEmail(email);
-  console.log("userExists ", userExists);
+  // console.log("userExists ", userExists);
 
   if (userExists) {
     req.flash("errors", "User already exists");
@@ -34,8 +46,8 @@ export const postRegister = async (req, res) => {
 
   const [user] = await createUser({ name, email, password: hashedPassword });
   // console.log(user);
-
-  res.redirect("/login");
+  await authenticateUser({ req, res, user, name, email });
+  res.redirect("/");
 };
 
 export const getLoginPage = (req, res) => {
@@ -57,32 +69,7 @@ export const postLogin = async (req, res) => {
     req.flash("errors", "Invalid email or password");
     return res.redirect("/login");
   }
-  const session = await createSession(user.id, {
-    ip: req.clientIp,
-    userAgent: req.headers["user-agent"],
-  });
-
-  const accessToken = createAccessToken({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    sessionId: session.id,
-  });
-
-  const refreshToken = createRefreshToken(session.id);
-  const baseConfig = {
-    httpOnly: true,
-    secure: true,
-  };
-  res.cookie("access_token", accessToken, {
-    ...baseConfig,
-    maxAge: ACCESS_TOKEN_EXPIRY,
-  });
-
-  res.cookie("refresh_token", refreshToken, {
-    ...baseConfig,
-    maxAge: REFRESH_TOKEN_EXPIRY,
-  });
+  await authenticateUser({ req, res, user });
 
   res.redirect("/");
 };
@@ -97,4 +84,24 @@ export const logoutUser = async (req, res) => {
   res.clearCookie("access_token");
   res.clearCookie("refresh_token");
   res.redirect("/login");
+};
+
+export const getProfilePage = async (req, res) => {
+  if (!req.user) return res.send("Not logged in");
+
+  const user = await findUserById(req.user.id);
+  if (!user) return res.redirect("/login");
+
+  const userShortLinks = await getAllShortLinks(user.id);
+
+  return res.render("auth/profile", {
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      isEmailValid: user.isEmailValid,
+      createdAt: user.createdAt,
+      links: userShortLinks,
+    },
+  });
 };
