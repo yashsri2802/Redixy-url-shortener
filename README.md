@@ -59,21 +59,21 @@ A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Pr
    npx drizzle-kit init
 This will create a drizzle/schema.js file and a .env file.
 
-5. **Create a .env file**
+6. **Create a .env file**
    Add your environment variables (example):
    ```bash
    DATABASE_URL="mysql://user:password@localhost:3306/db_name"
    PORT=3000
 
-6. **Generate the Database**
+7. **Generate the Database**
    ```bash
    npm run db:generate
 
-7. **Migrate the Database**
+8. **Migrate the Database**
    ```bash
    npm run db:migrate
 
-8. **Run Drizzle Studio on seperate Powershell**
+9. **Run Drizzle Studio on seperate Powershell**
    ```bash
    npm run db:studio
 
