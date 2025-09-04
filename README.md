@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)  
 [![Prisma](https://img.shields.io/badge/ORM-Drizzle-2D3748?logo=drizzle)](https://www.drizzle.io/)
 
-A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Prisma ORM, following the MVC design pattern. It allows users to shorten long URLs into compact links, store them in a database, manage them efficiently, and redirect seamlessly.
+A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Drizzle ORM, following the MVC design pattern. It allows users to shorten long URLs into compact links, store them in a database, manage them efficiently, and redirect seamlessly.
 
 ---
 
