@@ -5,7 +5,7 @@
 [![EJS](https://img.shields.io/badge/EJS-Templating-yellow)](https://ejs.co/)  
 [![MVC](https://img.shields.io/badge/Pattern-MVC-blue)](#)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)  
-[![Prisma](https://img.shields.io/badge/ORM-Prisma-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Prisma](https://img.shields.io/badge/ORM-Drizzle-2D3748?logo=drizzle)](https://www.drizzle.io/)
 
 A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Prisma ORM, following the MVC design pattern. It allows users to shorten long URLs into compact links, store them in a database, manage them efficiently, and redirect seamlessly.
 
@@ -16,7 +16,7 @@ A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Pr
 - Redirect to original URLs instantly  
 - Option to add **custom short URLs**  
 - If no custom alias is provided, a **random hex string** is auto-generated using Node’s **crypto** module
-- Persistent storage with **MySQL** (managed via **Prisma ORM**)
+- Persistent storage with **MySQL** (managed via **Drizzle ORM**)
 - Organized structure using **MVC pattern**  
 - Server-side rendering with **EJS templates**  
 - Environment-based configuration using `.env` / `.env.example ` 
@@ -27,7 +27,7 @@ A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Pr
 ## 🛠️ Tech Stack
 - **Backend:** Node.js, Express.js  
 - **Frontend:** EJS (Embedded JavaScript Templates)
-- **Database:** MySQL (with Prisma ORM) 
+- **Database:** MySQL (with Drizzle ORM) 
 - **Architecture:** MVC (Model–View–Controller)  
 - **Environment Management:** dotenv  
 - **Utilities:** Node `crypto` module  
