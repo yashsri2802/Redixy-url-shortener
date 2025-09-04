@@ -46,15 +46,18 @@ A URL Shortener web application built using Node.js, Express, EJS, MySQL, and Pr
    ```bash
    npm install
 
-3. **Install Prisma**
+3. **Install Drizzle**
    ```bash
-   npm install prisma --save-dev
-   npm install @prisma/client
+   npm install drizzle-orm mysql2
 
-4. **Initialize Prisma**
+4. **Install Drizzle CLI for migrations**
    ```bash
-   npx prisma init
-This will create a prisma/schema.prisma file and a .env file.
+   npm install -D drizzle-kit
+
+5. **Initialise Drizzle**
+   ```bash
+   npx drizzle-kit init
+This will create a drizzle/schema.js file and a .env file.
 
 5. **Create a .env file**
    Add your environment variables (example):
@@ -77,7 +80,7 @@ This will create a prisma/schema.prisma file and a .env file.
 10. **Run the Project**
    ```bash
    npm run dev
-   ```
+```
 ## 🔍 Viewing Data
 
 To open Prisma Studio and explore data in the browser:
