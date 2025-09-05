@@ -3,15 +3,17 @@ import {
   REFRESH_TOKEN_EXPIRY,
   MILLISECONDS_PER_SECOND,
 } from "../config/constants.js";
-import { eq } from "drizzle-orm";
+import { and, eq, gte, lt, sql } from "drizzle-orm";
 import { db } from "../config/db.js";
 import {
   sessionsTable,
   shortLinksTable,
   usersTable,
+  verifyEmailTokensTable,
 } from "../drizzle/schema.js";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 export const getUserByEmail = async (email) => {
   const [user] = await db
@@ -153,4 +155,93 @@ export const getAllShortLinks = async (userId) => {
     .select()
     .from(shortLinksTable)
     .where(eq(shortLinksTable.userId, userId));
+};
+
+export const generateRandomToken = (digit = 8) => {
+  const min = 10 ** (digit - 1); // 10000000
+  const max = 10 ** digit; // 100000000
+
+  return crypto.randomInt(min, max).toString();
+};
+
+export const insertVerifyEmailToken = async ({ userId, token }) => {
+  return db.transaction(async (tx) => {
+    try {
+      await tx
+        .delete(verifyEmailTokensTable)
+        .where(lt(verifyEmailTokensTable.expiresAt, sql`CURRENT_TIMESTAMP`));
+
+      await tx
+        .delete(verifyEmailTokensTable)
+        .where(eq(verifyEmailTokensTable.userId, userId));
+
+      await tx.insert(verifyEmailTokensTable).values({ userId, token });
+    } catch (error) {
+      console.error("Failed to insert verification token:", error);
+      throw new Error("Unable to create verification token");
+    }
+  });
+};
+
+export const createVerifyEmailLink = async ({ email, token }) => {
+  const url = new URL(`${process.env.FRONTEND_URL}/verify-email-token`);
+
+  url.searchParams.append("token", token);
+  url.searchParams.append("email", email);
+
+  return url.toString();
+};
+
+export const findVerificationEmailToken = async ({ token, email }) => {
+  const tokenData = await db
+    .select({
+      userId: verifyEmailTokensTable.userId,
+      token: verifyEmailTokensTable.token,
+      expiresAt: verifyEmailTokensTable.expiresAt,
+    })
+    .from(verifyEmailTokensTable)
+    .where(
+      and(
+        eq(verifyEmailTokensTable.token, token),
+        gte(verifyEmailTokensTable.expiresAt, sql`CURRENT_TIMESTAMP`)
+      )
+    );
+
+  if (!tokenData.length) {
+    return null;
+  }
+
+  const { userId } = tokenData[0];
+
+  const userData = await db
+    .select({
+      userId: usersTable.id,
+      email: usersTable.email,
+    })
+    .from(usersTable)
+    .where(eq(usersTable.id, userId));
+
+  if (!userData.length) {
+    return null;
+  }
+
+  return {
+    userId: userData[0].userId,
+    email: userData[0].email,
+    token: tokenData[0].token,
+    expiresAt: tokenData[0].expiresAt,
+  };
+};
+
+export const verifyUserEmailAndUpdate = async (email) => {
+  return db
+    .update(usersTable)
+    .set({ isEmailValid: true })
+    .where(eq(usersTable.email, email));
+};
+
+export const clearVerifyEmailTokens = async (userId) => {
+  return await db
+    .delete(verifyEmailTokensTable)
+    .where(eq(verifyEmailTokensTable.userId, userId));
 };
