@@ -1,28 +1,22 @@
 import {
-  ACCESS_TOKEN_EXPIRY,
-  REFRESH_TOKEN_EXPIRY,
-} from "../config/constants.js";
-import { sendEmail } from "../lib/nodemailer.js";
-import {
   authenticateUser,
   clearUserSession,
   clearVerifyEmailTokens,
   comparePassword,
-  createAccessToken,
-  createRefreshToken,
-  createSession,
   createUser,
-  createVerifyEmailLink,
   findUserById,
   findVerificationEmailToken,
-  generateRandomToken,
   getAllShortLinks,
   getUserByEmail,
   hashPassword,
-  insertVerifyEmailToken,
+  sendNewVerifyEmailLink,
+  updateUserByName,
   verifyUserEmailAndUpdate,
 } from "../services/auth.services.js";
-import { verifyEmailSchema } from "../validators/auth-validator.js";
+import {
+  verifyEmailSchema,
+  verifyUserSchema,
+} from "../validators/auth-validator.js";
 
 export const getRegisterPage = (req, res) => {
   if (req.user) return res.redirect("/");
@@ -31,14 +25,6 @@ export const getRegisterPage = (req, res) => {
 
 export const postRegister = async (req, res) => {
   if (req.user) return res.redirect("/");
-
-  // const { data, error } = registerUserSchema.safeParse(req.body);
-
-  // if (error) {
-  //   const errorMessage = error.errors[0].message;
-  //   req.flash("errors", errorMessage);
-  //   return res.redirect("/");
-  // }
 
   const { name, email, password } = req.body;
 
@@ -55,6 +41,9 @@ export const postRegister = async (req, res) => {
   const [user] = await createUser({ name, email, password: hashedPassword });
   // console.log(user);
   await authenticateUser({ req, res, user, name, email });
+
+  await sendNewVerifyEmailLink({ email, userId: user.id });
+
   res.redirect("/");
 };
 
@@ -133,24 +122,7 @@ export const resendVerificationLink = async (req, res) => {
   const user = await findUserById(req.user.id);
   if (!user || user.isEmailValid) return res.redirect("/");
 
-  const randomToken = generateRandomToken();
-  await insertVerifyEmailToken({
-    userId: user.id,
-    token: randomToken,
-  });
-
-  const verifyEmailLink = await createVerifyEmailLink({
-    email: req.user.email,
-    token: randomToken,
-  });
-
-  sendEmail({
-    to: req.user.email,
-    subject: "Verify your email",
-    html: `<h1>Click the link below to verify your email</h1>
-    <p>You can use this token: <code>${randomToken}</code></p>
-    <a href="${verifyEmailLink}">Verify Email</a>`,
-  }).catch((err) => console.log(err.message));
+  await sendNewVerifyEmailLink({ email: req.user.email, userId: req.user.id });
 
   res.redirect("/verify-email");
 };
@@ -161,14 +133,52 @@ export const verifyEmailToken = async (req, res) => {
     return res.send("Verification link invalid or expired!");
   }
 
-  const token = await findVerificationEmailToken(data); // without joins
-  // const [token] = await findVerificationEmailToken(data); // with joins
-  // console.log("🚀 ~ verifyEmailToken ~ token̥:", token);
+  const [token] = await findVerificationEmailToken(data);
+  console.log(" verifyEmailToken ~ token̥:", token);
   if (!token) res.send("Verification link invalid or expired!");
-
   await verifyUserEmailAndUpdate(token.email);
 
   clearVerifyEmailTokens(token.userId).catch(console.error);
+
+  return res.redirect("/profile");
+};
+
+export const getEditProfilePage = async (req, res) => {
+  if (!req.user) return res.redirect("/");
+
+  const user = await findUserById(req.user.id);
+  if (!user) return res.status(404).send("User not found");
+
+  return res.render("auth/edit-profile", {
+    name: user.name,
+    errors: req.flash("errors"),
+  });
+  a;
+};
+
+export const postEditProfile = async (req, res) => {
+  if (!req.user) return res.redirect("/");
+
+  console.log("req.body:", req.body);
+
+  const result = verifyUserSchema.safeParse(req.body);
+
+  if (!result.success) {
+    console.log("Validation errors:", result.error?.errors);
+
+    const errorMessages = result.error?.errors?.map((err) => err.message) || [
+      "Validation failed",
+    ];
+
+    errorMessages.forEach((msg) => req.flash("errors", msg));
+
+    return res.redirect("/edit-profile");
+  }
+
+  await updateUserByName({
+    userId: req.user.id,
+    name: result.data.name,
+  });
 
   return res.redirect("/profile");
 };

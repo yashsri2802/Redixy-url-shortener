@@ -14,6 +14,12 @@ import {
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+// import { sendEmail } from "../lib/nodemailer.js";
+import { sendEmail } from "../lib/send-email.js";
+import path from "path";
+import fs from "fs/promises";
+import mjml2html from "mjml";
+import ejs from "ejs";
 
 export const getUserByEmail = async (email) => {
   const [user] = await db
@@ -193,9 +199,12 @@ export const createVerifyEmailLink = async ({ email, token }) => {
 };
 
 export const findVerificationEmailToken = async ({ token, email }) => {
-  const tokenData = await db
+  // console.log("token: ", token);
+
+  return db
     .select({
-      userId: verifyEmailTokensTable.userId,
+      userId: usersTable.id,
+      email: usersTable.email,
       token: verifyEmailTokensTable.token,
       expiresAt: verifyEmailTokensTable.expiresAt,
     })
@@ -203,34 +212,11 @@ export const findVerificationEmailToken = async ({ token, email }) => {
     .where(
       and(
         eq(verifyEmailTokensTable.token, token),
+        eq(usersTable.email, email),
         gte(verifyEmailTokensTable.expiresAt, sql`CURRENT_TIMESTAMP`)
       )
-    );
-
-  if (!tokenData.length) {
-    return null;
-  }
-
-  const { userId } = tokenData[0];
-
-  const userData = await db
-    .select({
-      userId: usersTable.id,
-      email: usersTable.email,
-    })
-    .from(usersTable)
-    .where(eq(usersTable.id, userId));
-
-  if (!userData.length) {
-    return null;
-  }
-
-  return {
-    userId: userData[0].userId,
-    email: userData[0].email,
-    token: tokenData[0].token,
-    expiresAt: tokenData[0].expiresAt,
-  };
+    )
+    .innerJoin(usersTable, eq(verifyEmailTokensTable.userId, usersTable.id));
 };
 
 export const verifyUserEmailAndUpdate = async (email) => {
@@ -244,4 +230,40 @@ export const clearVerifyEmailTokens = async (userId) => {
   return await db
     .delete(verifyEmailTokensTable)
     .where(eq(verifyEmailTokensTable.userId, userId));
+};
+
+export const sendNewVerifyEmailLink = async ({ userId, email }) => {
+  const randomToken = generateRandomToken();
+
+  await insertVerifyEmailToken({ userId, token: randomToken });
+
+  const verifyEmailLink = await createVerifyEmailLink({
+    email,
+    token: randomToken,
+  });
+
+  const mjmlTemplate = await fs.readFile(
+    path.join(import.meta.dirname, "..", "emails", "verify-email.mjml"),
+    "utf-8"
+  );
+
+  const filledTemplate = ejs.render(mjmlTemplate, {
+    code: randomToken,
+    link: verifyEmailLink,
+  });
+
+  const htmlOutput = mjml2html(filledTemplate).html;
+
+  sendEmail({
+    to: email,
+    subject: "Verify your email",
+    html: htmlOutput,
+  }).catch(console.error);
+};
+
+export const updateUserByName = async ({ userId, name }) => {
+  return await db
+    .update(usersTable)
+    .set({ name: name })
+    .where(eq(usersTable.id, userId));
 };

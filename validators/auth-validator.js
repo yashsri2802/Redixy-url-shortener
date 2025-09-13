@@ -29,3 +29,7 @@ export const verifyEmailSchema = z.object({
   token: z.string().trim().length(8),
   email: z.string().trim().email(),
 });
+
+export const verifyUserSchema = z.object({
+  name: nameSchema,
+});
